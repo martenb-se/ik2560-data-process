@@ -26,7 +26,7 @@ from pandas import DataFrame, Series
 
 # Rooms - 2.14 - 2.55
 # 2.14
-MODEL_PATH_LOSS_EXPONENT = 2.14
+# MODEL_PATH_LOSS_EXPONENT = 2.14
 # 2.222
 # MODEL_PATH_LOSS_EXPONENT = 2.222
 # 2.
@@ -41,7 +41,7 @@ MODEL_PATH_LOSS_EXPONENT = 2.14
 # ------ [ Constants - Path Loss Model - Old Values ] -------------------------
 
 # Current
-# MODEL_PATH_LOSS_EXPONENT = 2.6
+MODEL_PATH_LOSS_EXPONENT = 2.6
 MODEL_PATH_LOSS_STANDARD_DEVIATION = 14.1
 MODEL_PATH_LOSS_REFERENCE_DISTANCE = 1
 
