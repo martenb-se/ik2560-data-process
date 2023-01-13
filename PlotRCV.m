@@ -136,8 +136,8 @@ figure(1)
 
 hold on
 % set(gca, 'YDir','reverse')
-xlabel('distance (m)')
-ylabel('RSS dBm')
+xlabel('Distance (m)')
+ylabel('RSSI Difference (dBm)')
 
 %% Figure 7 Log Normal Shadow (With Wall)
 % plot(distance, log_adapted, '-o')
@@ -158,12 +158,22 @@ ylabel('RSS dBm')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Figure 9
-% fprintf('k_distance_all: [%s]\n', join(string(k_distance_all), ','));
-% fprintf('k_log_diff: [%s]\n', join(string(k_log_diff), ','));
+hold on
 
-plot(k_distance_a, k_log_diff_a, '-o','LineWidth',2,'MarkerSize',10)
-plot(k_distance_a, k_itu_diff_a, '-o','LineWidth',2,'MarkerSize',10)
+% Log in Green, 'o'
+plot(k_distance_a, k_log_diff_a, '-o','LineWidth',2,'MarkerSize',10, 'Color',"#77AC30")
+
+% ITU in Yellow, 'x'
+plot(k_distance_a, k_itu_diff_a, '-x','LineWidth',2,'MarkerSize',10,'Color',"#EDB120")
 % plot(k_distance_all, k_itu_diff, '-x','LineWidth',2,'MarkerSize',10)
+
+
+%% legend will not work in other places!
+%% error: Warning "Ignoring extra legend entries"
+legend('Log Normal Shadow Model', 'ITU Model', 'Location','northeast' );
+title('Comparision of Difference Between Models and The Measure Data')
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 % set(gca, 'YDir','reverse')
@@ -179,5 +189,6 @@ display(distance)
 display(rcv_power)
 display(distance2)
 display(rcv_power2)
+
 
 hold off
