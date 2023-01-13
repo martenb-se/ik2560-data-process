@@ -8,8 +8,8 @@ i = 1;
 distance = [];
 rcv_power = [];
 est_rcv_power = [];
-itu_rcv_power = [];
-another_deviation = [];
+log_est = [];
+log_adapted = [];
 itu_adapted = [];
 log = [];
 log_diff = [];
@@ -17,27 +17,66 @@ itu_diff= [];
 
 rcv_power2 = [];
 est_rcv_power2 = [];
-itu_rcv_power2 = [];
-another_deviation2 = [];
+log_est2 = [];
+log_adapted2 = [];
 itu_adapted2 = [];
 log2 = [];
 log_diff2 = [];
 itu_diff2= [];
 distance2=[];
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+k_rcv_rssi_pi_a = [];
+k_rcv_rssi_pi_b = [];
+k_distance_a = [];
+k_distance_b = [];
+k_distance_all = [];
 
+
+k_log_est = [];
+k_itu_est = [];
+k_log_adapted = [];
+k_itu_adapted = [];
+k_log_diff = [];
+k_itu_diff = [];
+
+k_log_est_a = [];
+k_itu_est_a = [];
+k_log_adapted_a = [];
+k_itu_adapted_a = [];
+
+k_log_diff_a = [];
+k_itu_diff_a = [];
+k_log_diff_b = [];
+k_itu_diff_b = [];
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 
 while string(table{i,1}) == mac_address
     distance(1,i) = table{i,6};
     rcv_power(1,i) = table{i,5};
     est_rcv_power(1,i) = table{i,11};
-    itu_rcv_power(1,i)= table{i,7};
-    another_deviation(1,i) = table{i,11};
+    log_est(1,i)= table{i,7};
+    log_adapted(1,i) = table{i,11};
 %     log_atte(1,i) = table{i,12};
     itu_adapted(1,i) = table{i,12};
     log_diff(1,i) = table{i,13};
     itu_diff(1,i) = table{i,14};
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+k_rcv_rssi_pi_a(1,i) = table{i, 5};
+k_distance_a(1,i) = table{i,6};
+
+k_log_est_a(1,i) = table{i,7};
+k_itu_est_a(1,i) = table{i,8};
+k_log_adapted_a(1,i) = table{i,11};
+k_itu_adapted_a(1,i) = table{i,12};
+k_log_diff_a(1,i) = table{i,13};
+k_itu_diff_a(1,i) = table{i,14};
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
     
     i = i +1;
 end
@@ -47,16 +86,43 @@ for k=28:54
     distance2(1,k-27) = table{k,6};
     rcv_power2(1,k-27) = table{k,5};
     est_rcv_power2(1,k-27) = table{k,11};
-    itu_rcv_power2(1,k-27)= table{k,7};
-    another_deviation2(1,k-27) = table{k,14};
+    log_est2(1,k-27)= table{k,7};
+    log_adapted2(1,k-27) = table{k,11};
     log_atte2(1,k-27) = table{k,13};
 %     itu_adapted2(1,i) = table{i,15};
     log_diff2(1,k-27) = table{k,13};
     itu_diff2(1,k-27) = table{k,14};
 
-    
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+k_rcv_rssi_pi_b(1,k-27) = table{k, 5};    
+k_distance_b(1,k-27) = table{k,6};
+
+k_log_diff_b(1,k-27) = table{k, 13};
+k_itu_diff_b(1,k-27) = table{k, 14};
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
     k = k +1;
 end
+
+for j=1:54
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+k_log_est(1,j) = table{j,7};
+k_itu_est(1,j) = table{j,8};
+k_log_adapted(1,j) = table{j, 11};
+k_itu_adapted(1,j) = table{j, 12};
+k_log_diff(1,j) = table{j, 13};
+k_itu_diff(1,j) = table{j, 14};
+k_distance_all(1,j) = table{j, 6};
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+    j = j +1;
+end
+
 
 % figure(1)
 % plot(distance, rcv_power, '-o')
@@ -67,13 +133,20 @@ end
 % set(gca, 'YDir','reverse')
 figure(1)
 % plot(distance,log_diff,'-*')
-plot(distance2, log_diff2, '-o','LineWidth',1,'MarkerSize',10)
+
 hold on
 % set(gca, 'YDir','reverse')
 xlabel('distance (m)')
 ylabel('RSS dBm')
 
-plot(distance2,itu_diff2, '-x','LineWidth',2,'MarkerSize',10)
+%% Figure 7 Log Normal Shadow (With Wall)
+% plot(distance, log_adapted, '-o')
+% plot(distance2, log_adapted2, '-*','LineWidth',1,'MarkerSize',10)
+
+
+%% Figure 9
+% plot(distance2, log_diff2, '-o','LineWidth',1,'MarkerSize',10)
+% plot(distance2,itu_diff2, '-x','LineWidth',2,'MarkerSize',10)
 
 % figure 
 % plot(distance,itu_adapted, '-<')
@@ -83,14 +156,28 @@ plot(distance2,itu_diff2, '-x','LineWidth',2,'MarkerSize',10)
 % plot(distance, itu_diff, '-o')
 % plot(distance2, rcv_power2, '-*','LineWidth',1,'MarkerSize',10)
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Figure 9
+% fprintf('k_distance_all: [%s]\n', join(string(k_distance_all), ','));
+% fprintf('k_log_diff: [%s]\n', join(string(k_log_diff), ','));
+
+plot(k_distance_a, k_log_diff_a, '-o','LineWidth',2,'MarkerSize',10)
+plot(k_distance_a, k_itu_diff_a, '-o','LineWidth',2,'MarkerSize',10)
+% plot(k_distance_all, k_itu_diff, '-x','LineWidth',2,'MarkerSize',10)
+
+
 % set(gca, 'YDir','reverse')
 ax = gca;
 ax.FontSize = 18;
 % plot(distance, itu_diff, '-o')
 % set(gca, 'YDir','reverse')
-hold off
+
+
+
 
 display(distance)
 display(rcv_power)
 display(distance2)
 display(rcv_power2)
+
+hold off
