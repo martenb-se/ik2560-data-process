@@ -175,30 +175,8 @@ ylabel('RSSI Difference (dBm)')
 % 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Figure Chap4.2 B, model without wall, real data
-hold on
-
-% 
-plot(k_distance_a, k_rcv_rssi_pi_a, '-v','LineWidth',2,'MarkerSize',10, 'Color',"#7E2F8E")
-
-% 
-plot(k_distance_a, k_rcv_rssi_pi_b, '-*','LineWidth',2,'MarkerSize',10,'Color',"#A2142F")
-
-plot(k_distance_a, k_log_est_a, '-o','LineWidth',2,'MarkerSize',10,'Color',"#77AC30")
-
-
-
-%% legend will not work in other places!
-%% error: Warning "Ignoring extra legend entries"
-legend('Model B v1.2 Measured Data', 'Model B+ Measured Data', 'Log Normal Shadow Data Without Wall Attenuation','southheast' );
-title('Comparision of Log Normal Shadow Data Without Wall Attenuation and The Measured Data')
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% %% Figure Chap4.3 B, ITU model without wall, real data
-% %% need manual adjust of legend
+% %% Figure Chap4.2 B, model without wall, real data
 % hold on
 % 
 % % 
@@ -207,35 +185,57 @@ title('Comparision of Log Normal Shadow Data Without Wall Attenuation and The Me
 % % 
 % plot(k_distance_a, k_rcv_rssi_pi_b, '-*','LineWidth',2,'MarkerSize',10,'Color',"#A2142F")
 % 
-% plot(k_distance_a, k_itu_est_a, '-o','LineWidth',2,'MarkerSize',10,'Color',"#EDB120")
+% plot(k_distance_a, k_log_est_a, '-o','LineWidth',2,'MarkerSize',10,'Color',"#77AC30")
 % 
 % 
-% set(gca, 'YDir','reverse')
-% 
-% % set(gca, 'YDir','reverse')
-% ax = gca;
-% ax.FontSize = 18;
-% % plot(distance, itu_diff, '-o')
-% % set(gca, 'YDir','reverse')
-% 
-% 
-% 
-% 
-% % display(distance)
-% % display(rcv_power)
-% % display(distance2)
-% % display(rcv_power2)
 % 
 % %% legend will not work in other places!
 % %% error: Warning "Ignoring extra legend entries"
-% legend('Model B v1.2 Measured Data', 'Model B+ Measured Data', 'Log Normal Shadow Data Without Wall Attenuation','southeast' );
-% title('Comparision of ITU Model Without Wall Attenuation and The Measured Data')
-% 
-% 
-% hold off
-% 
+% legend('Model B v1.2 Measured Data', 'Model B+ Measured Data', 'Log Normal Shadow Data Without Wall Attenuation','southheast' );
+% title('Comparision of Log Normal Shadow Data Without Wall Attenuation and The Measured Data')
 % 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Figure Chap4.3 B, ITU model without wall, real data
+%% need manual adjust of legend
+hold on
+
+% 
+plot(k_distance_a, k_rcv_rssi_pi_a, '-v','LineWidth',2,'MarkerSize',10, 'Color',"#7E2F8E")
+
+% 
+plot(k_distance_a, k_rcv_rssi_pi_b, '-*','LineWidth',2,'MarkerSize',10,'Color',"#A2142F")
+
+plot(k_distance_a, k_itu_est_a, '-o','LineWidth',2,'MarkerSize',10,'Color',"#EDB120")
+
+
+set(gca, 'YDir','reverse')
+
+% set(gca, 'YDir','reverse')
+ax = gca;
+ax.FontSize = 18;
+% plot(distance, itu_diff, '-o')
+% set(gca, 'YDir','reverse')
+
+
+
+
+% display(distance)
+% display(rcv_power)
+% display(distance2)
+% display(rcv_power2)
+
+%% legend will not work in other places!
+%% error: Warning "Ignoring extra legend entries"
+legend('Model B v1.2 Measured Data', 'Model B+ Measured Data', 'ITU Model Without Wall Attenuation','southeast' );
+title('Comparision of ITU Model Without Wall Attenuation and The Measured Data')
+
+
+hold off
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 set(gca, 'YDir','reverse')
