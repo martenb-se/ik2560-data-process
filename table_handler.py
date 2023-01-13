@@ -211,7 +211,7 @@ def itu_path_loss(distance: float) -> float:
     :return:
     """
 
-    return TRANSMIT_POWER - (20 * np.log10(BT_FREQUENCY) - 28 +
+    return TRANSMIT_POWER - (20 * np.log10(BT_FREQUENCY / 10 ** 6) - 28 +
                              30 * np.log10(distance / MODEL_PATH_LOSS_REFERENCE_DISTANCE))
 
 
@@ -419,14 +419,14 @@ def add_estimated_rssi_to_table(df: DataFrame) -> DataFrame:
 
     log_normal_rssi_estimations: List[float] = []
     itu_rssi_estimations: List[float] = []
-    fspl_rssi_estimations: List[float] = []
+    # fspl_rssi_estimations: List[float] = []
 
     #  COL_EST_RSSI_ITU
 
     for index, row in df.iterrows():
         log_normal_rssi_estimations.append(estimate_received_power(row[COL_DIST]))
         itu_rssi_estimations.append(itu_path_loss(row[COL_DIST]))
-        fspl_rssi_estimations.append(free_space_path_loss(row[COL_DIST]))
+        # fspl_rssi_estimations.append(free_space_path_loss(row[COL_DIST]))
 
     df.insert(len(df.columns), COL_EST_RSSI_LOG_NORM, log_normal_rssi_estimations,
               allow_duplicates=True)
@@ -434,8 +434,8 @@ def add_estimated_rssi_to_table(df: DataFrame) -> DataFrame:
     df.insert(len(df.columns), COL_EST_RSSI_ITU, itu_rssi_estimations,
               allow_duplicates=True)
 
-    df.insert(len(df.columns), COL_EST_RSSI_FTPS, fspl_rssi_estimations,
-              allow_duplicates=True)
+    # df.insert(len(df.columns), COL_EST_RSSI_FTPS, fspl_rssi_estimations,
+    #          allow_duplicates=True)
 
     return df
 
