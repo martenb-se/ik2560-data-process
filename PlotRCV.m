@@ -156,45 +156,45 @@ ylabel('RSSI Difference (dBm)')
 % plot(distance, itu_diff, '-o')
 % plot(distance2, rcv_power2, '-*','LineWidth',1,'MarkerSize',10)
 
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% %% Figure 9
-% hold on
-% 
-% % Log in Green, 'o'
-% plot(k_distance_a, k_log_diff_a, '-o','LineWidth',2,'MarkerSize',10, 'Color',"#77AC30")
-% 
-% % ITU in Yellow, 'x'
-% plot(k_distance_a, k_itu_diff_a, '-x','LineWidth',2,'MarkerSize',10,'Color',"#EDB120")
-% % plot(k_distance_all, k_itu_diff, '-x','LineWidth',2,'MarkerSize',10)
-% 
-% 
-% %% legend will not work in other places!
-% %% error: Warning "Ignoring extra legend entries"
-% legend('Log Normal Shadow Model', 'ITU Model', 'Location','northeast' );
-% title('Comparision of Difference Between Models and The Measured Data')
-% 
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Figure Chap4.2 B, model without wall, real data
+%% Figure 9
 hold on
 
-% 
-plot(k_distance_a, k_rcv_rssi_pi_a, '-|','LineWidth',2,'MarkerSize',10, 'Color',"#7E2F8E")
+% Log in Green, 'o'
+plot(k_distance_a, k_log_diff_a, '-o','LineWidth',2,'MarkerSize',10, 'Color',"#77AC30")
 
-% 
-plot(k_distance_a, k_rcv_rssi_pi_b, '-*','LineWidth',2,'MarkerSize',10,'Color',"#A2142F")
-
-plot(k_distance_a, k_log_est_a, '-o','LineWidth',2,'MarkerSize',10,'Color',"#77AC30")
-
+% ITU in Yellow, 'x'
+plot(k_distance_a, k_itu_diff_a, '-x','LineWidth',2,'MarkerSize',10,'Color',"#EDB120")
+% plot(k_distance_all, k_itu_diff, '-x','LineWidth',2,'MarkerSize',10)
 
 
 %% legend will not work in other places!
 %% error: Warning "Ignoring extra legend entries"
-legend('Model B v1.2 Measured Data', 'Model B+ Measured Data', 'Log Normal Shadow Data Without Wall Attenuation','northeast' );
-title('Comparision of Log Normal Shadow Data Without Wall Attenuation and The Measured Data')
+legend('Log Normal Shadow Model', 'ITU Model', 'Location','northeast' );
+title('Comparision the Deviation of Two Different Models')
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %% Figure Chap4.2 B, model without wall, real data
+% hold on
+% 
+% % 
+% plot(k_distance_a, k_rcv_rssi_pi_a, '-|','LineWidth',2,'MarkerSize',10, 'Color',"#7E2F8E")
+% 
+% % 
+% plot(k_distance_a, k_rcv_rssi_pi_b, '-*','LineWidth',2,'MarkerSize',10,'Color',"#A2142F")
+% 
+% plot(k_distance_a, k_log_est_a, '-o','LineWidth',2,'MarkerSize',10,'Color',"#77AC30")
+% 
+% 
+% 
+% %% legend will not work in other places!
+% %% error: Warning "Ignoring extra legend entries"
+% legend('Model B v1.2 Measured Data', 'Model B+ Measured Data', 'Log Normal Shadow Data Without Wall Attenuation','northeast' );
+% title('Comparision of Log Normal Shadow Data Without Wall Attenuation and The Measured Data')
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 % set(gca, 'YDir','reverse')
