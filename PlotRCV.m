@@ -201,7 +201,7 @@ ylabel('RSSI Difference (dBm)')
 hold on
 
 % 
-plot(k_distance_a, k_rcv_rssi_pi_a, '-|','LineWidth',2,'MarkerSize',10, 'Color',"#7E2F8E")
+plot(k_distance_a, k_rcv_rssi_pi_a, '-v','LineWidth',2,'MarkerSize',10, 'Color',"#7E2F8E")
 
 % 
 plot(k_distance_a, k_rcv_rssi_pi_b, '-*','LineWidth',2,'MarkerSize',10,'Color',"#A2142F")
@@ -209,14 +209,7 @@ plot(k_distance_a, k_rcv_rssi_pi_b, '-*','LineWidth',2,'MarkerSize',10,'Color',"
 plot(k_distance_a, k_itu_est_a, '-o','LineWidth',2,'MarkerSize',10,'Color',"#EDB120")
 
 
-
-%% legend will not work in other places!
-%% error: Warning "Ignoring extra legend entries"
-legend('Model B v1.2 Measured Data', 'Model B+ Measured Data', 'Log Normal Shadow Data Without Wall Attenuation','northeast' );
-title('Comparision of ITU Model Without Wall Attenuation and The Measured Data')
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+set(gca, 'YDir','reverse')
 
 % set(gca, 'YDir','reverse')
 ax = gca;
@@ -227,10 +220,43 @@ ax.FontSize = 18;
 
 
 
-display(distance)
-display(rcv_power)
-display(distance2)
-display(rcv_power2)
+% display(distance)
+% display(rcv_power)
+% display(distance2)
+% display(rcv_power2)
+
+%% legend will not work in other places!
+%% error: Warning "Ignoring extra legend entries"
+legend('Model B v1.2 Measured Data', 'Model B+ Measured Data', 'Log Normal Shadow Data Without Wall Attenuation','southeast' );
+title('Comparision of ITU Model Without Wall Attenuation and The Measured Data')
 
 
 hold off
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+set(gca, 'YDir','reverse')
+
+% set(gca, 'YDir','reverse')
+ax = gca;
+ax.FontSize = 18;
+% plot(distance, itu_diff, '-o')
+% set(gca, 'YDir','reverse')
+
+
+
+
+% display(distance)
+% display(rcv_power)
+% display(distance2)
+% display(rcv_power2)
+
+
+hold off
+
+
+
