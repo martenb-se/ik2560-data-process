@@ -6,7 +6,16 @@ import numpy as np
 import pandas as pd
 from pandas import DataFrame, Series
 
+# ------ [ Constants - BT ] --------------------------------------
+
+TRANSMIT_POWER = 4
+SPEED_OF_LIGHT = 3 * 10 ** 8
+BT_FREQUENCY = 2.4 * 10 ** 9
+BT_WAVELENGTH = SPEED_OF_LIGHT / BT_FREQUENCY
+
 # ------ [ Constants - Path Loss Model ] --------------------------------------
+
+FSPL_EXPONENT = 1.7
 
 # ------ [ Constants - Path Loss Model - Path Loss Exponent ] -----------------
 
@@ -86,60 +95,60 @@ SPOT_DISTANCES: Dict[str, Dict[str, float]] = {
     "B15": {}
 }
 
-SPOT_DISTANCES["B1"]["B6"] = 22.36
-SPOT_DISTANCES["B1"]["B13"] = 12.26
+SPOT_DISTANCES["B1"]["B6"] = 23.56
+SPOT_DISTANCES["B1"]["B13"] = 12.15
 
-SPOT_DISTANCES["B3"]["B5"] = 11
+SPOT_DISTANCES["B3"]["B5"] = 10.94
 
-SPOT_DISTANCES["B4"]["B5"] = 17.12
+SPOT_DISTANCES["B4"]["B5"] = 17.01
 SPOT_DISTANCES["B4"]["B7"] = 24.09
-SPOT_DISTANCES["B4"]["B8"] = 25.63
-SPOT_DISTANCES["B4"]["B14"] = 33.24
+SPOT_DISTANCES["B4"]["B8"] = 26.16
+SPOT_DISTANCES["B4"]["B14"] = 32.91
 
 SPOT_DISTANCES["B5"]["B3"] = SPOT_DISTANCES["B3"]["B5"]
 SPOT_DISTANCES["B5"]["B4"] = SPOT_DISTANCES["B4"]["B5"]
-SPOT_DISTANCES["B5"]["B6"] = 17.71
+SPOT_DISTANCES["B5"]["B6"] = 14.56
 
 SPOT_DISTANCES["B6"]["B1"] = SPOT_DISTANCES["B1"]["B6"]
 SPOT_DISTANCES["B6"]["B5"] = SPOT_DISTANCES["B5"]["B6"]
 SPOT_DISTANCES["B6"]["B9"] = 11.96
-SPOT_DISTANCES["B6"]["B10"] = 29.18
+SPOT_DISTANCES["B6"]["B10"] = 26.98
 
 SPOT_DISTANCES["B7"]["B4"] = SPOT_DISTANCES["B4"]["B7"]
-SPOT_DISTANCES["B7"]["B8"] = 16.58
-SPOT_DISTANCES["B7"]["B11"] = 22.61
+SPOT_DISTANCES["B7"]["B8"] = 16.42
+SPOT_DISTANCES["B7"]["B11"] = 22.42
 
 SPOT_DISTANCES["B8"]["B4"] = SPOT_DISTANCES["B4"]["B8"]
 SPOT_DISTANCES["B8"]["B7"] = SPOT_DISTANCES["B7"]["B8"]
-SPOT_DISTANCES["B8"]["B9"] = 15.51
-SPOT_DISTANCES["B8"]["B10"] = 10.91
-SPOT_DISTANCES["B8"]["B11"] = 19.27
+SPOT_DISTANCES["B8"]["B9"] = 15.36
+SPOT_DISTANCES["B8"]["B10"] = 11.20
+SPOT_DISTANCES["B8"]["B11"] = 19.05
 
 SPOT_DISTANCES["B9"]["B6"] = SPOT_DISTANCES["B6"]["B9"]
 SPOT_DISTANCES["B9"]["B8"] = SPOT_DISTANCES["B8"]["B9"]
-SPOT_DISTANCES["B9"]["B10"] = 17.37
-SPOT_DISTANCES["B9"]["B12"] = 24.7
+SPOT_DISTANCES["B9"]["B10"] = 17.19
+SPOT_DISTANCES["B9"]["B12"] = 24.49
 
 SPOT_DISTANCES["B10"]["B8"] = SPOT_DISTANCES["B8"]["B10"]
 SPOT_DISTANCES["B10"]["B9"] = SPOT_DISTANCES["B9"]["B10"]
-SPOT_DISTANCES["B10"]["B11"] = 10.85
+SPOT_DISTANCES["B10"]["B11"] = 10.88
 SPOT_DISTANCES["B10"]["B12"] = 11.09
 
 SPOT_DISTANCES["B11"]["B7"] = SPOT_DISTANCES["B7"]["B11"]
 SPOT_DISTANCES["B11"]["B8"] = SPOT_DISTANCES["B8"]["B11"]
 SPOT_DISTANCES["B11"]["B10"] = SPOT_DISTANCES["B10"]["B11"]
-SPOT_DISTANCES["B11"]["B12"] = 11.1
+SPOT_DISTANCES["B11"]["B12"] = 11.66
 
 SPOT_DISTANCES["B12"]["B9"] = SPOT_DISTANCES["B9"]["B12"]
 SPOT_DISTANCES["B12"]["B10"] = SPOT_DISTANCES["B10"]["B12"]
 SPOT_DISTANCES["B12"]["B11"] = SPOT_DISTANCES["B11"]["B12"]
 
 SPOT_DISTANCES["B13"]["B1"] = SPOT_DISTANCES["B1"]["B13"]
-SPOT_DISTANCES["B13"]["B14"] = 21.46
+SPOT_DISTANCES["B13"]["B14"] = 21.19
 
 SPOT_DISTANCES["B14"]["B4"] = SPOT_DISTANCES["B4"]["B14"]
 SPOT_DISTANCES["B14"]["B13"] = SPOT_DISTANCES["B13"]["B14"]
-SPOT_DISTANCES["B14"]["B15"] = 9.33
+SPOT_DISTANCES["B14"]["B15"] = 10.04
 
 SPOT_DISTANCES["B15"]["B14"] = SPOT_DISTANCES["B14"]["B15"]
 SPOT_DISTANCES["B15"]["B4"] = SPOT_DISTANCES["B4"]["B15"]
@@ -173,7 +182,6 @@ SPOT_DISTANCES["B13"]["B15"] = \
 SPOT_DISTANCES["B15"]["B13"] = SPOT_DISTANCES["B13"]["B15"]
 SPOT_DISTANCES["B15"]["B7"] = SPOT_DISTANCES["B7"]["B15"]
 
-
 # ------ [ Helper Methods ] ---------------------------------------------------
 
 
@@ -193,27 +201,18 @@ def free_space_path_loss(distance: float) -> float:
     :param distance:
     :return:
     """
-    transmitted_power = 4
-    carried_frequency = 2.4 * 10 ** 9
-    speed_of_light = 3 * 10 ** 8
-    wavelength = speed_of_light / carried_frequency
-    path_loss_exponent = 1.7
-
-    return transmitted_power - (-20 * np.log10(wavelength) + 10 * path_loss_exponent * np.log10(distance) + np.log10(21.98))
+    return TRANSMIT_POWER - (-20 * np.log10(BT_WAVELENGTH) + 10 * FSPL_EXPONENT * np.log10(distance) + np.log10(21.98))
 
 
 def itu_path_loss(distance: float) -> float:
-    """ITU model for the same floor
+    """ITU model for the same floor where reference distance is 1 meter.
 
-    :param distance:
+    :param distance: Distance in meters
     :return:
     """
-    transmitted_power = 4
 
-    if 1 < distance < 16:
-        return transmitted_power - (39.9 + 28 * np.log10(distance))
-    else:
-        return transmitted_power - (39.9 + 38 * np.log10(distance))
+    return TRANSMIT_POWER - (20 * np.log10(BT_FREQUENCY) - 28 +
+                             30 * np.log10(distance / MODEL_PATH_LOSS_REFERENCE_DISTANCE))
 
 
 def log_distance_path_loss(transmitted_power: float, distance: float) -> float:
@@ -225,12 +224,7 @@ def log_distance_path_loss(transmitted_power: float, distance: float) -> float:
     (in meters).
     :return: The received power (in dBm).
     """
-    reference_distance = MODEL_PATH_LOSS_REFERENCE_DISTANCE
-    carried_frequency = 2.4 * 10 ** 9
-    speed_of_light = 3 * 10 ** 8
-    wavelength = speed_of_light / carried_frequency
-
-    path_loss_at_ref_dist = (4 * np.pi * reference_distance / wavelength) ** 2
+    path_loss_at_ref_dist = (4 * np.pi * MODEL_PATH_LOSS_REFERENCE_DISTANCE / BT_WAVELENGTH) ** 2
     path_loss_at_ref_dist_dbm = 10 * np.log10(path_loss_at_ref_dist)
 
     path_loss_exponent = MODEL_PATH_LOSS_EXPONENT
@@ -240,7 +234,7 @@ def log_distance_path_loss(transmitted_power: float, distance: float) -> float:
     #    10 ** (standard_deviation_log_normal_shadowing_dbm / 10)
     path_loss_dbm = \
         path_loss_at_ref_dist_dbm + 10 * path_loss_exponent * \
-        np.log10(distance / reference_distance) + \
+        np.log10(distance / MODEL_PATH_LOSS_REFERENCE_DISTANCE) + \
         np.random.normal(0, standard_deviation_log_normal_shadowing_dbm)
 
     return transmitted_power - path_loss_dbm  # received power in dBm
